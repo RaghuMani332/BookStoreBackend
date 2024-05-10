@@ -1,5 +1,6 @@
 ﻿using BuisinessLayer.Interface;
 using ModelLayer.DTO.Request;
+using ModelLayer.DTO.Responce;
 using ModelLayer.Entities;
 using RepositaryLayer.Interface;
 
@@ -18,10 +19,45 @@ namespace BuisinessLayer.Service
         }
         public bool addCart(CartRequest request)
         {
-            return cartRepo.addCart(MapToEntity(request));
-        }
+            List<CartResponce> li = cartRepo.getByUserId(request.userId);
+            if(li==null||!li.Any()) {
+                return cartRepo.addCart(MapToEntity(request));
+            }
 
-        public Cart getByUserId(int id)
+            foreach (var item in li)
+            {
+                if (item.BookId == request.bookId)
+                {
+                    if (item.IsOrdered)
+                        return cartRepo.addCart(MapToEntity(request));
+                    else
+                        return false;
+
+                }
+               
+
+
+
+            }
+            return cartRepo.addCart(MapToEntity(request));
+
+        }
+        /* public bool addCart(CartRequest request)
+         {
+             List<Cart> cartList = cartRepo.getByUserId(request.userId);
+
+             var existingCart = cartList.FirstOrDefault(item => item.bookId == request.bookId && item.isOrdered);
+
+             if (existingCart != null)
+             {
+                 return cartRepo.addCart(MapToEntity(request));
+             }
+
+             return false;
+         }
+ */
+
+        public List<CartResponce> getByUserId(int id)
         {
            return cartRepo.getByUserId(id);
         }
