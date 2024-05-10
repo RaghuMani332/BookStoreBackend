@@ -2,6 +2,7 @@ using BuisinessLayer.Interface;
 using BuisinessLayer.Service;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.IdentityModel.Tokens;
+using Microsoft.Net.Http.Headers;
 using Microsoft.OpenApi.Models;
 using RepositaryLayer.Context;
 using RepositaryLayer.Interface;
@@ -34,7 +35,7 @@ builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 builder.Services.AddSwaggerGen(c =>
 {
-    c.SwaggerDoc("v1", new OpenApiInfo { Title = "FundooNotes", Version = "v1" });
+    c.SwaggerDoc("v1", new OpenApiInfo { Title = "BookStore", Version = "v1" });
     //For Authorization
     var securitySchema = new OpenApiSecurityScheme
     {
@@ -81,27 +82,39 @@ builder.Services.AddAuthentication(au =>
         IssuerSigningKey = new SymmetricSecurityKey(System.Text.Encoding.UTF8.GetBytes(builder.Configuration["Jwt:Key"]))
     };
 });
-/*-----------------------------------CORS IN FRONT END---------------------------*/
+/*-----------------------------------CORS IN FRONT END---------------------------*//*
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowSpecificOrigin",
         builder =>
         {
-            builder.WithOrigins("http://localhost:4200", "https://localhost:7004")
+            builder.WithOrigins("http://localhost:4200", "https://localhost:7098")
                    .AllowAnyMethod()
                    .AllowAnyHeader()
             .AllowAnyOrigin();
         });
-});
+});*/
+
+
 
 
 var app = builder.Build();
+//------------CORS ANOTHER WAY-----
+app.UseCors("AllowSpecificOrigin");
+app.UseCors();
 
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger();
     app.UseSwaggerUI();
+    app.UseCors(policy =>
+    {
+        policy.WithOrigins("http://localhost:4200", "https://localhost:7098")
+        .AllowAnyMethod()
+        .AllowAnyHeader()
+        .WithHeaders(HeaderNames.ContentType);
+    });
 }
 
 app.UseHttpsRedirection();

@@ -1,4 +1,5 @@
 ﻿using Dapper;
+using ModelLayer.DTO.Responce;
 using ModelLayer.Entities;
 using RepositaryLayer.Context;
 using RepositaryLayer.Interface;
@@ -23,11 +24,14 @@ namespace RepositaryLayer.Service
             return nora > 0;
         }
 
-        public Cart getByUserId(int id)
+        public List<CartResponce> getByUserId(int id)
         {
             IDbConnection con = context.CreateConnection();
-            string query = @"SELECT * FROM Cart WHERE userId = @UserId";
-            return con.QueryFirstOrDefault<Cart>(query, new { UserId = id });
+            string query = @"select c.* , b.*
+                            from Books as b Inner Join Cart as c
+                            on b.bookid=c.bookid
+                            where c.userid= @UserId";
+            return con.Query<CartResponce>(query, new { UserId = id }).ToList();
         }
 
         public bool updateCartOrder(int cartId, bool isOrdered)

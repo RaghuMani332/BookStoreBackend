@@ -1,4 +1,5 @@
 ﻿using ModelLayer.DTO.Request;
+using ModelLayer.DTO.Responce;
 using ModelLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ namespace BuisinessLayer.Interface
     public interface ICartBL
     {
         bool addCart(CartRequest request);
-        Cart getByUserId(int id);
+        List<CartResponce> getByUserId(int id);
         bool updateCartOrder(int cartId, bool isOrdered);
         bool updateCartquantity(int cartId, int quantity);
     }

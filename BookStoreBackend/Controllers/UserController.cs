@@ -1,5 +1,6 @@
 ﻿using BuisinessLayer.ApplicationExcceptionHandler;
 using BuisinessLayer.Interface;
+using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.DTO.Request;
@@ -10,6 +11,7 @@ namespace BookStoreBackend.Controllers
     [Route("api/[controller]")]
     [ApiController]
     [UserExceptionHandler]
+    [EnableCors]
     public class UserController(IUserBL userService) : ControllerBase
     {
 
@@ -38,7 +40,12 @@ namespace BookStoreBackend.Controllers
         [HttpGet("{userEmail}/{password}")]
         public IActionResult login(String userEmail,String password)
         {
-            return Ok( userService.login(userEmail, password));
+            //return Ok( userService.login(userEmail, password));
+            return Ok( new ResponceDto<string>
+            {
+                data= userService.login(userEmail, password),
+                messasge="logged in"
+            } );
         }
     }
 }

@@ -3,6 +3,7 @@ using BuisinessLayer.Interface;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.DTO.Request;
+using ModelLayer.DTO.Responce;
 using ModelLayer.Entities;
 using System.Security.Claims;
 
@@ -16,6 +17,8 @@ namespace BookStoreBackend.Controllers
         [HttpPost]
         public IActionResult addCart(CartRequest request)
         {
+            int uId = int.Parse(User.FindFirstValue("userId"));
+            request.userId = uId;
             return Ok(cartservice.addCart(request));
         }
 
@@ -35,7 +38,7 @@ namespace BookStoreBackend.Controllers
         public IActionResult getCartByUserId()
         {
             int id = int.Parse(User.FindFirstValue("userId"));
-            Cart c = cartservice.getByUserId(id);
+            List<CartResponce> c = cartservice.getByUserId(id);
             return Ok(c);
         }
     }

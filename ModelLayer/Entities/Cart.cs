@@ -13,7 +13,6 @@ namespace ModelLayer.Entities
         public int userId { get; set; }
         public int bookId { get; set; }
         public bool isOrdered { get; set; }=false;
-        public bool isUnCarted { get; set; }
 
     }
 }
