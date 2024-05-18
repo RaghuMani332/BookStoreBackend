@@ -9,7 +9,7 @@ namespace ModelLayer.DTO.Responce
     public class CartResponce
     {
         public int CartId { get; set; }
-        public int QuantityInCart { get; set; }
+        public int Quantity { get; set; }
         public int UserId { get; set; }
         public int BookId { get; set; }
         public bool IsOrdered { get; set; }
@@ -19,5 +19,6 @@ namespace ModelLayer.DTO.Responce
         public string AuthorName { get; set; }
         public int QuantityAvailable { get; set; }
         public decimal Price { get; set; }
+        public bool isUnCarted { get; set; }
     }
 }

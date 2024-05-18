@@ -3,6 +3,7 @@ using ModelLayer.DTO.Request;
 using ModelLayer.DTO.Responce;
 using ModelLayer.Entities;
 using RepositaryLayer.Interface;
+using System.Linq;
 
 namespace BuisinessLayer.Service
 {
@@ -17,31 +18,44 @@ namespace BuisinessLayer.Service
                 userId=request.userId
             };
         }
-        public bool addCart(CartRequest request)
-        {
-            List<CartResponce> li = cartRepo.getByUserId(request.userId);
-            if(li==null||!li.Any()) {
-                return cartRepo.addCart(MapToEntity(request));
-            }
+         public int addCart(CartRequest request)
+         {
+             bool flag = true;
+             List<CartResponce> li = cartRepo.getByUserId(request.userId);
+             if(li==null||!li.Any()) {
+                 return cartRepo.addCart(MapToEntity(request));
+             }
 
-            foreach (var item in li)
-            {
-                if (item.BookId == request.bookId)
-                {
-                    if (item.IsOrdered)
-                        return cartRepo.addCart(MapToEntity(request));
+             foreach (var item in li)
+             {
+                
+                
+                     if (item.BookId == request.bookId)
+                     {
+                     if (item.IsOrdered)
+                     {
+                        flag = true;
+                        break;
+                     }
+                    else if (item.isUnCarted)
+                    {
+                        flag = true;
+                        break;
+                    }
                     else
-                        return false;
+                             flag = false;
 
-                }
-               
+                     }
 
+                 
+             }
 
+             if(flag)
+               return cartRepo.addCart(MapToEntity(request));
+             else
+                 return 0;
 
-            }
-            return cartRepo.addCart(MapToEntity(request));
-
-        }
+         }
         /* public bool addCart(CartRequest request)
          {
              List<Cart> cartList = cartRepo.getByUserId(request.userId);
@@ -56,6 +70,35 @@ namespace BuisinessLayer.Service
              return false;
          }
  */
+        /*public int addCart(CartRequest request)
+        {
+            bool flag = false;
+            List<CartResponce> li = cartRepo.getByUserId(request.userId);
+
+            if (li == null || !li.Any())
+            {
+                return cartRepo.addCart(MapToEntity(request));
+            }
+
+            foreach (var item in li)
+            {
+                if (item.BookId == request.bookId)
+                {
+                    if (item.IsOrdered || item.isUnCarted)
+                    {
+                        flag = true;
+                        break;
+                    }
+                }
+            }
+
+            if (!flag)
+            {
+                return cartRepo.addCart(MapToEntity(request));
+            }
+
+            return 0;
+        }*/
 
         public List<CartResponce> getByUserId(int id)
         {
@@ -70,6 +113,11 @@ namespace BuisinessLayer.Service
         public bool updateCartquantity(int cartId, int quantity)
         {
             return cartRepo.updateCartquantity(cartId, quantity);
+        }
+
+        public bool unCart(int cartId, int userId)
+        {
+            return cartRepo.unCart(cartId, userId);
         }
     }
 }

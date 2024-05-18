@@ -14,24 +14,32 @@ namespace RepositaryLayer.Service
 {
     public class CartRL(DapperContext context) : ICartRL
     {
-        public bool addCart(Cart cart)
+        public int addCart(Cart cart)
         {
             IDbConnection con= context.CreateConnection();
-            string insertQuery = @"INSERT INTO Cart (quantity, userId, bookId, isOrdered) 
-                                       VALUES (@quantity, @userId, @bookId, @isOrdered)";
+            string insertQuery = @"INSERT INTO Cart (quantity, userId, bookId, isOrdered,isUnCarted) 
+                                       VALUES (@quantity, @userId, @bookId, @isOrdered,@isUnCarted);select SCOPE_IDENTITY()";
 
-           int nora= con.Execute(insertQuery, cart);
-            return nora > 0;
+           int nora= con.QueryFirst<int>(insertQuery, cart);
+            return nora ;
         }
 
         public List<CartResponce> getByUserId(int id)
         {
             IDbConnection con = context.CreateConnection();
-            string query = @"select c.* , b.*
+            string query = @"select c.* ,b.BookName,b.BookImage,b.Description,b.AuthorName,b.Quantity as QuantityAvailable,b.Price
                             from Books as b Inner Join Cart as c
                             on b.bookid=c.bookid
                             where c.userid= @UserId";
             return con.Query<CartResponce>(query, new { UserId = id }).ToList();
+        }
+
+        public bool unCart(int cartId, int userId)
+        {
+            IDbConnection con = context.CreateConnection();
+            string query = @"UPDATE Cart SET isUnCarted = @isUnCarted WHERE cartId = @CartId";
+            int rowsAffected = con.Execute(query, new { CartId = cartId, isUnCarted = true });
+            return rowsAffected > 0;
         }
 
         public bool updateCartOrder(int cartId, bool isOrdered)

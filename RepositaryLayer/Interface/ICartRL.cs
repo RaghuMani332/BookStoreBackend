@@ -10,8 +10,9 @@ namespace RepositaryLayer.Interface
 {
     public interface ICartRL
     {
-        bool addCart(Cart cart);
+        int addCart(Cart cart);
         List<CartResponce> getByUserId(int id);
+        bool unCart(int cartId, int userId);
         bool updateCartOrder(int cartId, bool isOrdered);
         bool updateCartquantity(int cartId, int quantity);
     }
