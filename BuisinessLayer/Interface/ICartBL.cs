@@ -11,8 +11,9 @@ namespace BuisinessLayer.Interface
 {
     public interface ICartBL
     {
-        bool addCart(CartRequest request);
+        int addCart(CartRequest request);
         List<CartResponce> getByUserId(int id);
+        bool unCart(int cartId, int userId);
         bool updateCartOrder(int cartId, bool isOrdered);
         bool updateCartquantity(int cartId, int quantity);
     }

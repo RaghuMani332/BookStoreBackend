@@ -19,6 +19,9 @@ builder.Services.AddScoped<IBookRL,BookRL>();
 builder.Services.AddScoped<ICartBL,CartBL>();
 builder.Services.AddScoped<ICartRL,CartRL>();
 builder.Services.AddSingleton<DapperContext>();
+builder.Services.AddScoped<IAddressBL,AddressBL>();
+builder.Services.AddScoped<IAddressRL,AddressRL>();
+//builder.Services.AddExceptionHandler<>();
 builder.Services.AddControllers();
 
 

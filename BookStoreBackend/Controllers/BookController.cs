@@ -1,8 +1,10 @@
 ﻿using BuisinessLayer.Interface;
 using Microsoft.AspNetCore.Mvc;
 using ModelLayer.DTO.Request;
+using ModelLayer.DTO.Responce;
 using ModelLayer.Entities;
 using RepositaryLayer.Interface;
+using System.Security.Claims;
 
 namespace BookStoreBackend.Controllers
 {
@@ -26,6 +28,14 @@ namespace BookStoreBackend.Controllers
         {
             Book b=bookService.getBookById(bId);
             return Ok( b );
+        }
+
+
+
+        [HttpGet("getNameByToken")]
+        public ResponceDto<string> GetName()
+        {
+            return new ResponceDto<string> { data = User.FindFirstValue(ClaimTypes.Name) };
         }
     }
 }

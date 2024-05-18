@@ -33,6 +33,12 @@ namespace BookStoreBackend.Controllers
         {
             return Ok(cartservice.updateCartOrder(cartId,isOrdered));
         }
+        [HttpPatch]
+        public IActionResult uncart(int cartId) 
+        {
+            int userId= int.Parse(User.FindFirstValue("userId"));
+            return Ok(cartservice.unCart(cartId, userId));
+        }
 
         [HttpGet]
         public IActionResult getCartByUserId()
