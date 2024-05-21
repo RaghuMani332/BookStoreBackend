@@ -39,12 +39,12 @@ namespace RepositaryLayer.Service
             }
         }
 
-        public List<WishList> getWishList(int uId)
+        public List<Object> getWishList(int uId)
         {
             using (var connection = _context.CreateConnection())
             {
-                var query = "SELECT * FROM WishList WHERE UserId = @UserId;";
-                var wishLists = connection.Query<WishList>(query, new { UserId = uId }).ToList();
+                var query = "SELECT w.WishListId,w.bookId,w.userId,b.* FROM WishList w inner join Books b on w.bookId = b.bookId where w.UserId=@UserId;";
+                var wishLists = connection.Query<Object>(query, new { UserId = uId }).ToList();
                 return wishLists;
             }
         }

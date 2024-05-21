@@ -11,6 +11,6 @@ namespace RepositaryLayer.Interface
     {
         bool addWishList(WishList wishList);
         bool deleteWishList(int uId, int cartId);
-       List< WishList> getWishList(int uId);
+       List< Object> getWishList(int uId);
     }
 }

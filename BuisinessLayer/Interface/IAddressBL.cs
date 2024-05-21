@@ -1,4 +1,5 @@
-﻿using ModelLayer.DTO.Request;
+﻿using Microsoft.AspNetCore.Mvc;
+using ModelLayer.DTO.Request;
 using ModelLayer.Entities;
 using System;
 using System.Collections.Generic;
@@ -11,6 +12,8 @@ namespace BuisinessLayer.Interface
     public interface IAddressBL
     {
         bool addAddress(AddressRequest addressRequest, int userId);
+        bool deleteAddress(int addressId);
         List<Address> getAllAddress(int userId);
+        bool updateAddress(AddressRequest address, int addressId);
     }
 }

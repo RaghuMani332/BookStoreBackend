@@ -25,10 +25,10 @@ namespace BookStoreBackend.Controllers
         }
 
         [HttpDelete]
-        public IActionResult deleteWishList(int cartId)
+        public IActionResult deleteWishList(int wishListId)
         {
             int uId = int.Parse(User.FindFirstValue("userId"));
-           return Ok(service.deleteWishList(uId,cartId));
+           return Ok(service.deleteWishList(uId, wishListId));
         }
     }
 }

@@ -12,6 +12,6 @@ namespace BuisinessLayer.Interface
     {
         bool addWishList(WishListRequest request,int Uid);
         bool deleteWishList(int uId, int cartId);
-        List<WishList> getWishList(int uId);
+        List<Object> getWishList(int uId);
     }
 }

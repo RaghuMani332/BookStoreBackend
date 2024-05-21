@@ -33,7 +33,7 @@ namespace BuisinessLayer.Service
             return repositary.deleteWishList(uId, wishListId);
         }
 
-        public List<WishList> getWishList(int uId)
+        public List<object> getWishList(int uId)
         {
             return repositary.getWishList(uId);
         }

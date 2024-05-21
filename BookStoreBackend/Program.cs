@@ -24,6 +24,9 @@ builder.Services.AddScoped<IAddressRL,AddressRL>();
 
 builder.Services.AddScoped<IWishListBL, WishListBL>();
 builder.Services.AddScoped<IWishListRL, WishListRL>();
+
+builder.Services.AddScoped<IOrderBL,OrderBL>();
+builder.Services.AddScoped<IOrderRL,OrderRL>();
 //builder.Services.AddExceptionHandler<>();
 builder.Services.AddControllers();
 
