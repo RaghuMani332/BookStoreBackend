@@ -27,6 +27,18 @@ namespace BookStoreBackend.Controllers
             return service.getAllAddress(userId);
 
         }
+        [HttpPut]
+        public IActionResult updateAddress(AddressRequest address,int addressId)
+        {
+            return Ok(service.updateAddress(address,addressId));
+        }
+
+        [HttpDelete]
+        public IActionResult deleteAddress(int addressId)
+        {
+            return Ok(service.deleteAddress( addressId));
+        }
+
 
     }
 }

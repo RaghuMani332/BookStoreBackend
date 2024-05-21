@@ -2,6 +2,7 @@
 using ModelLayer.DTO.Request;
 using ModelLayer.Entities;
 using RepositaryLayer.Interface;
+using RepositaryLayer.Service;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -17,9 +18,30 @@ namespace BuisinessLayer.Service
            return repo.addAddress(mapToEntity(addressRequest, userId));
         }
 
+        public bool deleteAddress(int addressId)
+        {
+            return repo.deleteAddress(addressId);
+        }
+
         public List<Address> getAllAddress(int userId)
         {
             return repo.getAllAddress(userId);
+        }
+
+        public bool updateAddress(AddressRequest address, int addressId)
+        {
+            Address a= new Address
+            {
+                city = address.city,
+                address = address.address,
+                state = address.state,
+                type = address.type,
+                mobileNumber = address.mobileNumber,
+                name = address.name,
+                addressId = addressId
+            };
+            return repo.updateAddress(a);
+            
         }
 
         private Address mapToEntity(AddressRequest addressRequest, int userId)
@@ -30,7 +52,9 @@ namespace BuisinessLayer.Service
                 address=addressRequest.address,
                 state = addressRequest.state,
                 type = addressRequest.type,
-                userId=userId
+                userId=userId,
+                mobileNumber= addressRequest.mobileNumber,
+                name= addressRequest.name
             };
         }
     }

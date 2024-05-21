@@ -2,12 +2,7 @@
 using ModelLayer.Entities;
 using RepositaryLayer.Context;
 using RepositaryLayer.Interface;
-using System;
-using System.Collections.Generic;
 using System.Data;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace RepositaryLayer.Service
 {
@@ -24,6 +19,8 @@ namespace RepositaryLayer.Service
                 parameters.Add("State", address.state);
                 parameters.Add("Type", address.type);
                 parameters.Add("UserId", address.userId);
+                parameters.Add("name", address.name);
+                parameters.Add("mobileNumber", address.mobileNumber);
 
                 con.Execute("InsertAddress", parameters, commandType: CommandType.StoredProcedure);
                 return true;
@@ -36,10 +33,61 @@ namespace RepositaryLayer.Service
             }
         }
 
+        
+        public bool deleteAddress(int addressId)
+        {
+            string query = "update address set isdeleted=@flag where addressId=@Id";
+            return context.CreateConnection().Execute(query, new { flag = true, Id = addressId }) > 0;
+        }
+
         public List<Address> getAllAddress(int userId)
         {
             IDbConnection con= context.CreateConnection();
           return  con.Query<Address>("getAddressByUserId",new  { userId },commandType:CommandType.StoredProcedure).ToList();
         }
+
+        /* public bool updateAddress(Address a)
+         {
+             throw new NotImplementedException();
+         }*/
+        public bool updateAddress(Address address)
+        {
+            using (IDbConnection con = context.CreateConnection())
+            {
+                try
+                {
+                    string query = @"
+                UPDATE Address
+                SET 
+                    Address = @Address,
+                    City = @City,
+                    State = @State,
+                    Type = @Type,
+                    name = @name,
+                    mobileNumber = @mobileNumber
+                WHERE AddressId = @AddressId";
+
+                    var parameters = new DynamicParameters();
+                    parameters.Add("AddressId", address.addressId);
+                    parameters.Add("Address", address.address);
+                    parameters.Add("City", address.city);
+                    parameters.Add("State", address.state);
+                    parameters.Add("Type", address.type);
+                   // parameters.Add("UserId", address.userId);
+                    parameters.Add("name", address.name);
+                    parameters.Add("mobileNumber", address.mobileNumber);
+
+                    int rowsAffected = con.Execute(query, parameters);
+                    return rowsAffected > 0;
+                }
+                catch (Exception ex)
+                {
+                    // Log the exception (e.g., using a logging framework)
+                    Console.WriteLine(ex.Message);
+                    return false;
+                }
+            }
+        }
+
     }
 }

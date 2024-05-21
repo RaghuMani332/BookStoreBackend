@@ -16,5 +16,9 @@ namespace ModelLayer.Entities
         public AddressType type { get; set; }
         public int userId { get; set; }
 
+        //-----------------------------
+        public string name { get; set; }
+        public long mobileNumber { get; set; }
+
     }
 }

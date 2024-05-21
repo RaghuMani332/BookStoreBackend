@@ -10,6 +10,8 @@ namespace RepositaryLayer.Interface
     public interface IAddressRL
     {
         bool addAddress(Address address);
+        bool deleteAddress(int addressId);
         List<Address> getAllAddress(int userId);
+        bool updateAddress(Address a);
     }
 }

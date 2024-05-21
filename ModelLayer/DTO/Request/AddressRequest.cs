@@ -13,5 +13,7 @@ namespace ModelLayer.DTO.Request
         public String city { get; set; }
         public String state { get; set; }
         public AddressType type { get; set; }
+        public string name { get; set; }
+        public long mobileNumber { get; set; }
     }
 }
