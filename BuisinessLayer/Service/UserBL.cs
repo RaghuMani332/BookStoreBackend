@@ -52,7 +52,7 @@ namespace BuisinessLayer.Service
            return userRepo.createUser(MapToEntity(request));
         }
 
-        public string login(string userEmail, string password)
+        public string[] login(string userEmail, string password)
         {
             try
             {
@@ -64,7 +64,7 @@ namespace BuisinessLayer.Service
                 else
                 {
                     if (password.Equals(Decrypt(user.password)))
-                        return generateToken(user);
+                        return new string[] { generateToken(user),user.name };
                     else
                         throw new PasswordMissMatchException("incorrect Password Entered By User");
                 }
