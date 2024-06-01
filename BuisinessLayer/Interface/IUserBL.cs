@@ -10,6 +10,6 @@ namespace BuisinessLayer.Interface
     public interface IUserBL
     {
        bool createUser(UserRequest request);
-        String login(string userEmail, string password);
+        String[] login(string userEmail, string password);
     }
 }

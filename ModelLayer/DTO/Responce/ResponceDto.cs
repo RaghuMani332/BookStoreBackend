@@ -6,12 +6,12 @@ using System.Threading.Tasks;
 
 namespace ModelLayer.DTO.Responce
 {
-    public class ResponceDto<T>
+    public class ResponseDto<T>
     {
 
-        public T data { get; set; }
-        public String messasge { get; set; }
-        public bool isSuccess { get; set; } = true;
+        public bool Success { get; set; }
+        public string Message { get; set; }
+        public T Data { get; set; }
 
     }
 }
